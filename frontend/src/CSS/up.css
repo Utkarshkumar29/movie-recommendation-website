@@ -1,0 +1,60 @@
+.up
+{
+    width: 100%;
+    margin-bottom: 0rem;
+}
+
+h2
+{
+    color: yellow;
+    margin-left: 4rem;
+    font-family: 'Bungee', cursive;
+}
+
+.poster
+{
+    border: 2px solid white;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+.posters
+{
+    display: flex;
+    overflow-x: auto;
+    width: 100%;    
+    gap: 5%;
+    padding-bottom: 10px;
+    scroll-behavior: smooth;
+}
+
+.posters::-webkit-scrollbar
+{ 
+    display: none; 
+}
+
+.poster:hover
+{
+    transform: scale(1.1);
+}
+
+@media (max-width:862px) {
+    .poster
+    {
+        margin: 2rem;
+    }
+}
+
+@media (max-width:755px) {
+    img
+    {
+        width: 24%;
+    }
+}
+
+@media (max-width:450px) {
+    .poster
+    {
+        margin-left: 0px;
+    }
+}

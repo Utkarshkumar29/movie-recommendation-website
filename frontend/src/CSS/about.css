@@ -1,0 +1,13 @@
+.about
+{
+    color: white;
+    text-align: center;
+    width: 60%;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    font-size: 20px;
+    color: yellow;
+    margin-top: 20px;
+}

@@ -1,0 +1,45 @@
+.back
+{
+    background-color: rgb(79, 68, 68);
+    padding: 5rem;
+    position: relative;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%,-50%);
+    width: 40%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 0 10px rgba(1, 2, 4, 0.9);
+    border-radius: 10px;
+    color: white;
+}
+
+.distance
+{
+    margin-right: 11px;
+}
+
+.input
+{
+    width: 30rem;
+}
+
+button
+{
+    color: white;
+    background-color: black;
+    border:2px solid yellow;
+    padding: 9px;
+    border-radius: 20px;
+    text-transform: uppercase;
+    text-align: center;
+    padding: 16px 34px;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    line-height: 1.5;
+    margin-top: 10px;
+}
+

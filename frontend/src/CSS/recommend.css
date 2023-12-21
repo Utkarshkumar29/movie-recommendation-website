@@ -1,0 +1,40 @@
+h1
+{
+    color: yellow;
+    margin-left: 2rem;
+}
+
+.input-container
+{
+    display: flex;
+    justify-content: center;
+}
+
+input
+{
+    background-color: #FFF8DC;
+  border: none; 
+  border-radius: 5px; 
+  box-shadow: none;  
+  font-size: 16px; 
+  height: 20px; 
+  padding: 10px; 
+  width: 60%;
+  margin-top: 2rem;
+}
+
+input:focus {
+    outline: none;
+    box-shadow: none;
+    background-color: #FFFF99; 
+  }
+
+.fetch
+{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 4rem;
+  margin-top: 2rem;
+  flex-wrap: wrap;
+}
