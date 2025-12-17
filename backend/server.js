@@ -12,7 +12,7 @@ app.get("/api/recommend/:movie", async (req, res) => {
     const movie = encodeURIComponent(req.params.movie);
 
     const flaskResponse = await axios.get(
-      `http://127.0.0.1:5001/home/${movie}`
+      `https://movie-recommendation-website-flask.onrender.com/home/${movie}`
     );
     console.log(flaskResponse)
     res.json(flaskResponse.data); // send Flask result to frontend

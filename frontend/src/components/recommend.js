@@ -22,7 +22,7 @@ function App() {
     const fetchMoviesAndPosters = async () => {
       try {
         const response = await fetch(
-          `http://localhost:5000/api/recommend/${movie}`
+          `https://movie-recommendation-website-i6d8.onrender.com/api/recommend/${movie}`
         );
         const data = await response.json();
 
