@@ -27,6 +27,10 @@ app.post("/", async (req, res) => {
   // your login/register logic
 });
 
+app.get('/',(req,res)=>{
+  res.send("Server running at 5000")
+})
+
 app.listen(5000, () => {
   console.log("Connected to the server at 5000");
 });
