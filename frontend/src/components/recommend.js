@@ -1,71 +1,82 @@
-import React,{useState,useEffect} from "react";
-import '../CSS/recommend.css'
+import React, { useState, useEffect } from "react";
+import "../CSS/recommend.css";
 
-function App()
-{
-    const [movie,setMovies]=useState("")
-    const [poster,setPoster]=useState([])
-    
-    const handlechange=(event)=>{
-        setMovies(event.target.value)
-    }
+function App() {
+  const [searchMovie, setSearchMovie] = useState(""); // input text
+  const [movie, setMovie] = useState(""); // submitted movie
+  const [posters, setPosters] = useState([]);
 
-    const handlesubmit=(event)=>{
-        event.preventDefault()
-    }
+  const handleChange = (e) => {
+    setSearchMovie(e.target.value);
+  };
 
-    useEffect(() => {
-      const fetchMoviesAndPosters = async () => {
-        try {
-          const response = await fetch(`http://localhost:5000/home/${movie}`);
-          const data = await response.json();
-          console.log(data.recommended_movies);
-          console.log(data.recommended_movies.length)
-          setMovies(data.recommended_movies.length);
-      
-          const movieIds = data.recommended_ids;
-          const posterPromises = movieIds.map(async (movieId) => {
-            const responsep = await fetch(`https://api.themoviedb.org/3/movie/${movieId}?api_key=576f0051dff3e97a42a31648d28054a8`);
-            const datap = await responsep.json();
-            console.log(movieId);
-            return datap;
-          });
-          const posters = await Promise.all(posterPromises);
-          setPoster(posters);
-        } catch (error) {
-          console.error(error);
-        }
-      };
-    
-      if (movie) {
-        fetchMoviesAndPosters();
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!searchMovie.trim()) return;
+    setMovie(searchMovie); // trigger API
+  };
+
+  useEffect(() => {
+    if (!movie) return;
+
+    const fetchMoviesAndPosters = async () => {
+      try {
+        const response = await fetch(
+          `http://localhost:5000/api/recommend/${movie}`
+        );
+        const data = await response.json();
+
+        const movieIds = data.id_list;
+
+        const posterPromises = movieIds.map(async (id) => {
+          const res = await fetch(
+            `https://api.themoviedb.org/3/movie/${id}?api_key=576f0051dff3e97a42a31648d28054a8`
+          );
+          return res.json();
+        });
+
+        const results = await Promise.all(posterPromises);
+        setPosters(results);
+      } catch (error) {
+        console.error("Error fetching movies:", error);
       }
-    }, [movie]);
-    
-      
+    };
 
-    return(
-        <>
-            <div className="up">
-                <h1>Discover your next favorite movie! Tell us the name of a film you loved and we'll suggest similar must-watch movies for you!!!!</h1>
-                
-                <form onSubmit={handlesubmit} className="input-container">
-                    <input type="text" id="myInput" placeholder="Movie Name..." onChange={handlechange}></input>
-                </form>
+    fetchMoviesAndPosters();
+  }, [movie]);
 
-                <div className="fetch">
-                {poster.map((movie) => (
-                <img
-                  key={movie.id}
-                  src={`https://image.tmdb.org/t/p/w185/${movie.poster_path}`}
-                  alt={movie.title}
-                  className='poster'
-                />
-              ))}
-              </div>
-            </div>
-        </>
-    )
+  return (
+    <>
+      <div className="up">
+        <h1>
+          Discover your next favorite movie! Tell us a movie you loved and we’ll
+          recommend similar ones 🎬
+        </h1>
+
+        <form onSubmit={handleSubmit} className="input-container">
+          <input
+            type="text"
+            placeholder="Movie Name..."
+            value={searchMovie}
+            onChange={handleChange}
+          />
+        </form>
+
+        <div className="fetch">
+          {posters.map((movie) => (
+            movie.poster_path && (
+              <img
+                key={movie.id}
+                src={`https://image.tmdb.org/t/p/w185/${movie.poster_path}`}
+                alt={movie.title}
+                className="poster"
+              />
+            )
+          ))}
+        </div>
+      </div>
+    </>
+  );
 }
 
-export default App
+export default App;
