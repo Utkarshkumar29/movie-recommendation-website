@@ -6,7 +6,7 @@ function App() {
   useEffect(() => {
     const fetchMoviesAndPosters = async () => {
       try {
-        const response = await fetch(`http://localhost:5000/popular`);
+        const response = await fetch(`https://movie-recommendation-website-i6d8.onrender.com/popular`);
         const data = await response.json();
         console.log(data.popular_movies);
         console.log(data.popular_movies.length);
