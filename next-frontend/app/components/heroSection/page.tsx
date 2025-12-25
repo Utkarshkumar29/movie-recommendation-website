@@ -1,6 +1,8 @@
 const HeroSection = () => {
     return (
-        <div className=" p-[100px]  ">
+        <div className="relative py-20 lg:py-32 overflow-hidden">
+            
+
             <div className="flex w-full h-full items-center flex-col gap-10 ">
                 <div className=" px-[24px] py-[8px] flex gap-4 items-center bg-[#161631] border border-gray-800 rounded-[16px] ">
                     <i className="fa-solid fa-clapperboard text-[#06ffa5] shadow-2x shadow-amber-400 "></i>

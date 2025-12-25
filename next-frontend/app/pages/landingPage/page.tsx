@@ -5,7 +5,9 @@ const LandingPage=()=>{
     return(
         <div className=" bg-[#0f0f23] w-full min-h-screen ">
             <Navbar/>
-            <HeroSection/>
+            <main className=" pt-16 ">
+                <HeroSection/>
+            </main>
         </div>
     )
 }
