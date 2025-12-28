@@ -1,14 +1,18 @@
+import CTASection from "@/app/components/CTASection/page"
+import FeaturesSections from "@/app/components/FeaturesSection/page"
+import Footer from "@/app/components/Footer/page"
 import HeroSection from "@/app/components/heroSection/page"
 import Navbar from "@/app/components/navbar/page"
+import StatsSection from "@/app/components/StatsSection/page"
 
-const LandingPage=()=>{
-    return(
-        <div className=" bg-[#0f0f23] w-full min-h-screen ">
-            <Navbar/>
-            <main className=" pt-16 ">
-                <HeroSection/>
-                
-                <section className="py-12 lg:py-20">
+const LandingPage = () => {
+  return (
+    <div className=" bg-[#0f0f23] w-full min-h-screen ">
+      <Navbar />
+      <main className=" pt-16 ">
+        <HeroSection />
+
+        <section className="py-12 lg:py-20">
           <div className="container mx-auto px-4 lg:px-8">
             <div className="text-center mb-12">
               <h2 className="text-3xl lg:text-4xl font-bold mb-4">
@@ -19,13 +23,18 @@ const LandingPage=()=>{
                 Explore our curated collection in stunning 3D
               </p>
             </div>
-            
+
           </div>
         </section>
-                
-            </main>
-        </div>
-    )
+
+        <FeaturesSections />
+        <StatsSection/>
+        <CTASection/>
+      </main>
+
+      <Footer/>
+    </div>
+  )
 }
 
 export default LandingPage

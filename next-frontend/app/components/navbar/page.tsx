@@ -1,15 +1,113 @@
-const Navbar=()=>{
-    return(
-        <div className=" bg-[#161631] flex justify-between px-[64px] h-[80px] items-center border-b border-gray-800 shadow-[#1f1f4a] shadow-md ">
-            <div>CineAI</div>
-            <div className=" flex gap-20 ">
-                <div className=" flex gap-2 items-center text-[#80848d] text-[18px] "><i className="fa-solid fa-house-chimney"></i>Home</div>
-                <div className=" flex gap-2 items-center text-[#80848d] text-[18px] "><i className="fa-solid fa-clapperboard"></i>Recommendations</div>
-                <div className=" flex gap-2 items-center text-[#80848d] text-[18px] "><i className="fa-solid fa-fire"></i>Popular</div>
-                <div className=" flex gap-2 items-center text-[#80848d] text-[18px] "><i className="fa-solid fa-calendar"></i>Upcoming</div>
-            </div>
-        </div>
-    )
-}
+'use client'
+import { usePathname, useRouter } from "next/navigation";
+import { useState } from "react";
 
-export default Navbar
+const Navbar = () => {
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const router = useRouter();
+  const pathanme=usePathname()
+  console.log("Current Path:", router,pathanme);
+
+  const navigationItems = [
+    { label: 'Home', path: '/landing-page', icon: <i className="fa-solid fa-house-chimney"></i> },
+    { label: 'Recommendations', path: '/recommendation-dashboard', icon: <i className="fa-solid fa-clapperboard"></i> },
+    { label: 'Popular', path: '/popular-movies', icon: <i className="fa-solid fa-fire"></i> },
+    { label: 'Upcoming', path: '/upcoming-movies', icon: <i className="fa-solid fa-calendar"></i> }
+  ];
+
+  const isActive = (path) => pathanme.includes(path);
+
+  const toggleMobileMenu = () => {
+    setMobileMenuOpen(!mobileMenuOpen);
+  };
+
+  const closeMobileMenu = () => {
+    setMobileMenuOpen(false);
+  };
+
+  return (
+    <>
+      <header className="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-border">
+        <div className="container mx-auto px-4 lg:px-8">
+          <div className="flex items-center justify-between h-16">
+            <div 
+              to="/landing-page" 
+              className="flex items-center space-x-3 smooth-transition hover:opacity-80"
+              onClick={closeMobileMenu}
+            >
+              <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-glow">
+                <i class="fa-solid fa-film"></i>
+              </div>
+              <span className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
+                CineAI
+              </span>
+            </div>
+
+            <nav className="hidden lg:flex items-center space-x-1">
+              {navigationItems?.map((item) => (
+                <div
+                  key={item?.path}
+                  to={item?.path}
+                  className={`
+                    flex items-center space-x-2 px-4 py-2 rounded-lg smooth-transition
+                    ${isActive(item?.path) 
+                      ? 'bg-primary/20 text-primary border border-primary/30 shadow-glow' 
+                      : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
+                    }
+                  `}
+                >
+                  {item?.icon}
+                  <span className="font-medium">{item?.label}</span>
+                </div>
+              ))}
+            </nav>
+            
+
+            <button
+              onClick={toggleMobileMenu}
+              className="lg:hidden p-2 rounded-lg hover:bg-muted/50 smooth-transition"
+              aria-label="Toggle mobile menu"
+            >
+              {mobileMenuOpen ? <i class="fa-solid fa-x"></i>: <i class="fa-solid fa-bars"></i>}
+            </button>
+          </div>
+        </div>
+      </header>
+      {mobileMenuOpen && (
+        <div 
+          className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm lg:hidden"
+          onClick={closeMobileMenu}
+        />
+      )}
+      <div 
+        className={`
+          fixed top-16 left-0 right-0 z-40 lg:hidden
+          transform smooth-transition
+          ${mobileMenuOpen ? 'translate-y-0 opacity-100' : '-translate-y-full opacity-0 pointer-events-none'}
+        `}
+      >
+        <nav className="glass-panel border-b border-border mx-4 mt-4 rounded-lg overflow-hidden">
+          {navigationItems?.map((item, index) => (
+            <div
+              key={item?.path}
+              to={item?.path}
+              onClick={closeMobileMenu}
+              className={`
+                flex items-center space-x-3 px-6 py-4 smooth-transition
+                ${isActive(item?.path) 
+                  ? 'bg-primary/20 text-primary border-l-4 border-primary' :'text-muted-foreground hover:text-foreground hover:bg-muted/50 border-l-4 border-transparent'
+                }
+                ${index !== navigationItems?.length - 1 ? 'border-b border-border/50' : ''}
+              `}
+            >
+              {item?.icon}
+              <span className="font-medium">{item?.label}</span>
+            </div>
+          ))}
+        </nav>
+      </div>
+    </>
+  );
+};
+
+export default Navbar;
