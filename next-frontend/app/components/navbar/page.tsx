@@ -36,7 +36,7 @@ const Navbar = () => {
               onClick={closeMobileMenu}
             >
               <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-glow">
-                <i class="fa-solid fa-film"></i>
+                <i className="fa-solid fa-film"></i>
               </div>
               <span className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                 CineAI
@@ -49,12 +49,13 @@ const Navbar = () => {
                   key={item?.path}
                   to={item?.path}
                   className={`
-                    flex items-center space-x-2 px-4 py-2 rounded-lg smooth-transition
+                   cursor-pointer flex items-center space-x-2 px-4 py-2 rounded-lg smooth-transition
                     ${isActive(item?.path) 
                       ? 'bg-primary/20 text-primary border border-primary/30 shadow-glow' 
                       : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
                     }
                   `}
+                  onClick={()=>router.push(`/pages/${item?.path}`)}
                 >
                   {item?.icon}
                   <span className="font-medium">{item?.label}</span>
@@ -68,7 +69,7 @@ const Navbar = () => {
               className="lg:hidden p-2 rounded-lg hover:bg-muted/50 smooth-transition"
               aria-label="Toggle mobile menu"
             >
-              {mobileMenuOpen ? <i class="fa-solid fa-x"></i>: <i class="fa-solid fa-bars"></i>}
+              {mobileMenuOpen ? <i className="fa-solid fa-x"></i>: <i className="fa-solid fa-bars"></i>}
             </button>
           </div>
         </div>

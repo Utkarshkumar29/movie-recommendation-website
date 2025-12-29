@@ -9,7 +9,9 @@
   --accent:#06FFA5;
   --tertiary:#94A3B8;
   --border: rgba(255, 255, 255, 0.1);
-  --background: #0F0F23
+  --background: #0F0F23;
+  --ring: #6366F1;
+  --muted-foreground:#94A3B8;
 }
 
 @theme inline {
@@ -22,6 +24,8 @@
   --color-tertiary: var(--tertiary);
   --color-border: var(--border);
   --color-background: var(--background);
+  --color-ring: var(--ring);
+  --color-muted-foreground: var(--muted-foreground);
 
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
@@ -65,5 +69,29 @@ body {
     box-shadow:
       0 10px 40px rgba(99, 102, 241, 0.25),
       0 30px 60px rgba(0, 0, 0, 0.35);
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-track {
+    background: rgba(26, 27, 58, 0.3);
+    border-radius: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb {
+    background: rgba(99, 102, 241, 0.5);
+    border-radius: 4px;
+  }
+
+  .scrollbar-thin::-webkit-scrollbar-thumb:hover {
+    background: rgba(99, 102, 241, 0.7);
+  }
+
+  /* Hide Scrollbar */
+  .scrollbar-hide::-webkit-scrollbar {
+    display: none;
+  }
+
+  .scrollbar-hide {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }

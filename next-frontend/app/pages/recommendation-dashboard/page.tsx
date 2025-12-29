@@ -1,190 +1,199 @@
+'use client'
+
 import Navbar from "@/app/components/navbar/page";
 import RecommendationCard from "@/app/components/RecommendationCard/page";
+import SelectedMovieCard from "@/app/components/SelectedMovieCard/page";
 import ThreeBackground from "@/app/components/ThreeBackground/page";
+import { useEffect, useState } from "react";
+
+const TMDB_API_KEY = "576f0051dff3e97a42a31648d28054a8";
 
 const RecommendationPage = () => {
 
+  const [searchInput, setSearchInput] = useState("");
+  const [poster, setPoster] = useState(null)
+  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [isGenerating, setIsGenerating] = useState(false);
+  const [recommendations, setRecommendations] = useState([]);
 
-    
-  const mockRecommendations = [
-  {
-    id: 101,
-    title: "Blade Runner 2049",
-    year: 2017,
-    poster: "https://img.rocket.new/generatedImages/rocket_gen_img_1984d2000-1764699432226.png",
-    posterAlt: "Futuristic neon-lit cityscape with flying vehicles and towering skyscrapers in orange and blue tones",
-    genre: "Sci-Fi",
-    genres: ["Sci-Fi", "Thriller", "Mystery"],
-    rating: 8.0,
-    matchScore: 95,
-    description: "A young blade runner's discovery of a long-buried secret leads him to track down former blade runner Rick Deckard, who's been missing for thirty years.",
-    cast: ["Ryan Gosling", "Harrison Ford", "Ana de Armas", "Jared Leto"],
-    streamingPlatforms: ["Netflix", "Prime Video"],
-    aiReasoning: "Based on your love for Inception and The Matrix, this visually stunning sci-fi masterpiece explores similar themes of reality and identity with breathtaking cinematography."
-  },
-  {
-    id: 102,
-    title: "The Prestige",
-    year: 2006,
-    poster: "https://img.rocket.new/generatedImages/rocket_gen_img_1a382e220-1764683399111.png",
-    posterAlt: "Victorian era magician in formal attire performing illusion with dramatic stage lighting and mysterious atmosphere",
-    genre: "Thriller",
-    genres: ["Thriller", "Mystery", "Drama"],
-    rating: 8.5,
-    matchScore: 92,
-    description: "After a tragic accident, two stage magicians engage in a battle to create the ultimate illusion while sacrificing everything they have to outwit each other.",
-    cast: ["Christian Bale", "Hugh Jackman", "Scarlett Johansson", "Michael Caine"],
-    streamingPlatforms: ["HBO Max", "Apple TV+"],
-    aiReasoning: "Christopher Nolan\'s intricate storytelling and mind-bending narrative structure align perfectly with your preference for Inception and complex plot twists."
-  },
-  {
-    id: 103,
-    title: "Arrival",
-    year: 2016,
-    poster: "https://img.rocket.new/generatedImages/rocket_gen_img_1596b0222-1765521548972.png",
-    posterAlt: "Massive alien spacecraft hovering over misty landscape with silhouettes of people observing from ground",
-    genre: "Sci-Fi",
-    genres: ["Sci-Fi", "Drama", "Mystery"],
-    rating: 7.9,
-    matchScore: 90,
-    description: "A linguist works with the military to communicate with alien lifeforms after twelve mysterious spacecraft appear around the world.",
-    cast: ["Amy Adams", "Jeremy Renner", "Forest Whitaker", "Michael Stuhlbarg"],
-    streamingPlatforms: ["Paramount+", "Prime Video"],
-    aiReasoning: "This thought-provoking sci-fi drama matches your taste for intelligent storytelling and explores profound themes about communication and time."
-  },
-  {
-    id: 104,
-    title: "Prisoners",
-    year: 2013,
-    poster: "https://img.rocket.new/generatedImages/rocket_gen_img_1ac32a15f-1765813386763.png",
-    posterAlt: "Dark atmospheric poster showing shadowy figure in rain-soaked urban environment with dramatic lighting",
-    genre: "Thriller",
-    genres: ["Thriller", "Crime", "Drama"],
-    rating: 8.1,
-    matchScore: 88,
-    description: "When his daughter and her friend go missing, a desperate father takes matters into his own hands while a detective pursues multiple leads.",
-    cast: ["Hugh Jackman", "Jake Gyllenhaal", "Viola Davis", "Paul Dano"],
-    streamingPlatforms: ["Netflix", "Hulu"],
-    aiReasoning: "The intense psychological thriller elements and moral complexity resonate with your appreciation for The Dark Knight\'s darker themes."
-  },
-  {
-    id: 105,
-    title: "Her",
-    year: 2013,
-    poster: "https://images.unsplash.com/photo-1592234403516-69d83a03f96b",
-    posterAlt: "Minimalist poster with man in warm orange lighting looking contemplative against soft pastel background",
-    genre: "Sci-Fi",
-    genres: ["Sci-Fi", "Romance", "Drama"],
-    rating: 8.0,
-    matchScore: 87,
-    description: "In a near future, a lonely writer develops an unlikely relationship with an operating system designed to meet his every need.",
-    cast: ["Joaquin Phoenix", "Scarlett Johansson", "Amy Adams", "Rooney Mara"],
-    streamingPlatforms: ["HBO Max", "Apple TV+"],
-    aiReasoning: "This unique exploration of human connection and AI consciousness complements your interest in futuristic narratives like The Matrix."
-  },
-  {
-    id: 106,
-    title: "Shutter Island",
-    year: 2010,
-    poster: "https://images.unsplash.com/photo-1715443263523-220d6fc8a868",
-    posterAlt: "Isolated lighthouse on rocky island surrounded by stormy seas and ominous dark clouds",
-    genre: "Thriller",
-    genres: ["Thriller", "Mystery", "Drama"],
-    rating: 8.2,
-    matchScore: 86,
-    description: "In 1954, a U.S. Marshal investigates the disappearance of a murderer who escaped from a hospital for the criminally insane.",
-    cast: ["Leonardo DiCaprio", "Mark Ruffalo", "Ben Kingsley", "Michelle Williams"],
-    streamingPlatforms: ["Netflix", "Prime Video"],
-    aiReasoning: "Martin Scorsese\'s psychological thriller with its twist ending and atmospheric tension matches your preference for complex narratives."
-  }];
-    
-    return (
-        <div className=" bg-[#0f0f23] w-full min-h-screen ">
-            <ThreeBackground />
-            <Navbar />
+  useEffect(() => {
+    if (!searchInput.trim()) {
+      setPoster(null);
+      return;
+    }
 
-            <main className="pt-24 pb-16">
+    const fetchMovie = async () => {
+      try {
+        const response = await fetch(
+          `https://api.themoviedb.org/3/search/movie?api_key=${TMDB_API_KEY}&query=${encodeURIComponent(
+            searchInput
+          )}&include_adult=false`
+        );
 
-                <div className="container mx-auto px-4 lg:px-8">
-                    <div className="mb-12">
-                        <div className="flex items-center gap-3 mb-4">
-                            <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-glow">
-                                <i class="fa-solid fa-wand-magic-sparkles"></i>
-                            </div>
-                            <div>
-                                <h1 className="text-3xl lg:text-4xl font-bold text-foreground">AI Movie Recommendations</h1>
-                                <p className="text-muted-foreground mt-1">Tell us what you love, and we'll find your next favorite film</p>
-                            </div>
-                        </div>
-                    </div>
+        const data = await response.json();
 
-                </div>
+        const firstValidMovie = (data.results || []).find(
+          (movie) => movie.poster_path
+        );
 
-                <div className="lg:col-span-8 space-y-8">
-                <div className="glass-panel rounded-lg p-6 lg:p-8">
-                  <div className="flex items-center gap-2 mb-6">
-                    <Icon name="Search" size={20} className="text-primary" />
-                    <h2 className="text-xl font-semibold text-foreground">Select Your Favorite Movies</h2>
+        setPoster(firstValidMovie || null);
+      } catch (error) {
+        console.error("Error fetching movies from TMDB:", error);
+        setPoster(null);
+      }
+    };
+
+    fetchMovie();
+  }, [searchInput]);
+
+  const handleMovieSelect = (movie) => {
+    setSelectedMovie(movie);
+    setPoster(null);
+  }
+
+  const fetchMoviesAndPosters = async () => {
+        try {
+          console.log("Selected Movie for Recommendations:", selectedMovie);
+          const response = await fetch(
+            `https://movie-recommendation-website-i6d8.onrender.com/api/recommend/${selectedMovie?.original_title}`
+          );
+          const data = await response.json();
+  
+          const movieIds = data.id_list;
+  
+          const posterPromises = movieIds.map(async (id) => {
+            const res = await fetch(
+              `https://api.themoviedb.org/3/movie/${id}?api_key=576f0051dff3e97a42a31648d28054a8`
+            );
+            return res.json();
+          });
+  
+          const results = await Promise.all(posterPromises);
+          setRecommendations(results);
+        } catch (error) {
+          console.error("Error fetching movies:", error);
+        }
+      };
+
+  return (
+    <div className=" bg-[#0f0f23] w-full min-h-screen ">
+      <ThreeBackground />
+      <Navbar />
+
+      <main className="pt-24 pb-16 flex items-center flex-col ">
+
+        <div className="container mx-auto px-4 lg:px-8">
+          <div className="mb-12">
+            <div className="flex items-center gap-3 mb-4">
+              <div className="w-12 h-12 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-glow">
+                <i className="fa-solid fa-wand-magic-sparkles"></i>
+              </div>
+              <div>
+                <h1 className="text-3xl lg:text-4xl font-bold text-foreground">
+                  AI Movie Recommendations
+                </h1>
+                <p className="text-muted-foreground mt-1">
+                  Tell us what you love, and we'll find your next favorite film
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="lg:col-span-8 space-y-8 container px-8 relative ">
+          <div className="glass-panel rounded-lg p-6 lg:p-8 flex flex-col items-center ">
+
+            <div className="flex items-center gap-2 mb-6">
+              <i className="fa-solid fa-magnifying-glass text-primary "></i>
+              <h2 className="text-xl font-semibold text-foreground">
+                Select Your Favorite Movies
+              </h2>
+            </div>
+
+            <div className=" relative w-full flex justify-between items-center h-10 rounded border border-input bg-background text-primary focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50 ">
+              <input
+                placeholder="Search for movies you love..."
+                className=" outline-none pl-[12px] w-full h-full bg-transparent "
+                value={searchInput}
+                onChange={(e) => setSearchInput(e.target.value)}
+              />
+              <i className="fa-solid fa-magnifying-glass text-primary pr-[12px] "></i>
+            </div>
+
+            {/* 🔽 SINGLE SUGGESTION DROPDOWN */}
+            {poster && (
+              <div className=" absolute top-36 z-10 left-16 right-0 mt-2 glass-panel rounded-lg overflow-hidden z-50 max-w-[1410px]">
+                <button
+                  onClick={() => handleMovieSelect(poster)}
+                  className=" cursor-pointer w-full flex items-center gap-4 p-4 hover:bg-muted/50 smooth-transition border-b border-border/50 last:border-b-0"
+                >
+                  <div className="w-12 h-16 rounded overflow-hidden flex-shrink-0">
+                    <img
+                      src={`https://image.tmdb.org/t/p/w185${poster.poster_path}`}
+                      alt={poster.title}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
 
-                  <MovieSearchInput
-                    onMovieSelect={handleMovieSelect}
-                    selectedMovies={selectedMovies} />
+                  <div className="flex-1 text-left">
+                    <h4 className="font-semibold text-foreground">
+                      {poster.title}
+                    </h4>
 
+                    <div className="flex items-center gap-3 mt-1">
+                      <span className="text-sm text-muted-foreground">
+                        {poster.release_date?.split("-")[0]}
+                      </span>
 
-                  {selectedMovies?.length > 0 &&
-                  <div className="mt-8">
-                      <div className="flex items-center justify-between mb-4">
-                        <p className="text-sm text-muted-foreground">
-                          {selectedMovies?.length} {selectedMovies?.length === 1 ? 'movie' : 'movies'} selected
-                        </p>
-                        <button
-                        onClick={() => setSelectedMovies([])}
-                        className="text-sm text-destructive hover:text-destructive/80 smooth-transition flex items-center gap-1">
+                      <span className="text-sm text-muted-foreground">•</span>
 
-                          <Icon name="X" size={14} />
-                          Clear all
-                        </button>
-                      </div>
-
-                      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4 mb-6">
-                        {selectedMovies?.map((movie) =>
-                      <SelectedMovieCard
-                        key={movie?.id}
-                        movie={movie}
-                        onRemove={handleRemoveMovie} />
-
-                      )}
-                      </div>
-
-                      <Button
-                      variant="default"
-                      size="lg"
-                      fullWidth
-                      loading={isGenerating}
-                      iconName="Sparkles"
-                      iconPosition="left"
-                      onClick={handleGenerateRecommendations}>
-
-                        {isGenerating ? 'Generating Recommendations...' : 'Get AI Recommendations'}
-                      </Button>
+                      <span className="text-sm font-medium text-accent">
+                        {poster.vote_average?.toFixed(1)}
+                      </span>
                     </div>
-                  }
+                  </div>
+                </button>
+              </div>
+            )}
 
-                  {selectedMovies?.length === 0 &&
-                  <div className="text-center py-12">
-                      <Icon name="Film" size={64} className="text-muted-foreground mx-auto mb-4 opacity-50" />
-                      <p className="text-muted-foreground mb-2">Start by searching for movies you love</p>
-                      <p className="text-sm text-muted-foreground">Select at least one movie to get personalized recommendations</p>
-                    </div>
-                  }
-                </div>
+            {/* 🎞 SELECTED MOVIE */}
+            {selectedMovie && (
+              <div className=" flex justify-center items-center my-6">
+                <SelectedMovieCard
+                  movie={selectedMovie}
+                  onRemove={() => setSelectedMovie(null)}
+                />
+              </div>
+            )}
 
-                {recommendations?.length > 0 &&
-                <div>
+            {/* EMPTY STATE */}
+            {selectedMovie === null && (
+              <div className="text-center py-12">
+                <i className="fa-solid fa-film text-[80px] text-muted-foreground "></i>
+                <p className="text-muted-foreground mb-2 mt-10">
+                  Start by searching for movies you love
+                </p>
+                <p className="text-sm text-muted-foreground">
+                  Select one movie to get personalized recommendations
+                </p>
+              </div>
+            )}
+
+            <button
+              className="mt-6 bg-primary text-primary-foreground hover:bg-primary/90 px-[24px] py-[16px] rounded-sm text-xl cursor-pointer "
+              disabled={!selectedMovie || isGenerating}
+              onClick={()=>fetchMoviesAndPosters()}
+            >
+              {isGenerating
+                ? "Generating Recommendations..."
+                : "Get AI Recommendations"}
+            </button>
+
+            {recommendations?.length > 0 &&
+                <div className="mt-6 ">
                     <div className="flex items-center justify-between mb-6">
                       <div className="flex items-center gap-2">
-                        <Icon name="Sparkles" size={24} className="text-primary" />
+                        
                         <h2 className="text-2xl font-bold text-foreground">Your Personalized Recommendations</h2>
                       </div>
                       <span className="text-sm text-muted-foreground">{recommendations?.length} movies</span>
@@ -195,18 +204,21 @@ const RecommendationPage = () => {
                     <RecommendationCard
                       key={movie?.id}
                       movie={movie}
-                      onSave={handleSaveMovie}
-                      onMarkWatched={handleMarkWatched}
-                      onRequestSimilar={handleRequestSimilar} />
+                      //onSave={handleSaveMovie}
+                      //onMarkWatched={handleMarkWatched}
+                      //onRequestSimilar={handleRequestSimilar} 
+                      />
 
                     )}
                     </div>
                   </div>
                 }
-              </div>
-            </main>
+
+          </div>
         </div>
-    )
-}
+      </main>
+    </div>
+  );
+};
 
 export default RecommendationPage;

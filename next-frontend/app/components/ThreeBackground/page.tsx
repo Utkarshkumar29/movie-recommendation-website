@@ -28,7 +28,6 @@ const ParticleField = () => {
 
   useFrame((state) => {
     if (pointsRef.current) {
-      console.log(pointsRef.current, "pointsRef");
 
       pointsRef.current.rotation.y = state?.clock?.elapsedTime * 0.05
       pointsRef.current.rotation.x = state?.clock?.elapsedTime * 0.03
