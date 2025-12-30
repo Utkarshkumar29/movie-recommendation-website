@@ -1,6 +1,7 @@
 import Navbar from "@/app/components/navbar";
-import StatsBar from "@/app/components/StatsBar";
+
 import dynamic from "next/dynamic";
+import StatsBar from "../components/StatsBar";
 const ThreeBackground = dynamic(
   () => import("@/app/components/ThreeBackground"),
   { ssr: false }
