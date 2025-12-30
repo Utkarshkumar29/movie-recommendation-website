@@ -10,6 +10,7 @@ const ThreeBackground = dynamic(
 );
 
 import { TMDBDetailedMovie, TMDBSearchMovie } from "@/app/types/movie";
+import dynamic from "next/dynamic";
 
 import { useEffect, useState } from "react";
 
