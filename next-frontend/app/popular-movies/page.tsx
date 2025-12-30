@@ -1,6 +1,10 @@
 import Navbar from "@/app/components/navbar";
 import StatsBar from "@/app/components/StatsBar";
-import ThreeBackground from "@/app/components/ThreeBackground";
+const ThreeBackground = dynamic(
+  () => import("@/app/components/ThreeBackground"),
+  { ssr: false }
+);
+
 
 const PopularMoviesPage = () => {
     return (

@@ -4,7 +4,11 @@ import Navbar from "@/app/components/navbar";
 import RecommendationCard from "@/app/components/RecommendationCard";
 
 import SelectedMovieCard from "@/app/components/SelectedMovieCard";
-import ThreeBackground from "@/app/components/ThreeBackground";
+const ThreeBackground = dynamic(
+  () => import("@/app/components/ThreeBackground"),
+  { ssr: false }
+);
+
 import { TMDBDetailedMovie, TMDBSearchMovie } from "@/app/types/movie";
 
 import { useEffect, useState } from "react";
