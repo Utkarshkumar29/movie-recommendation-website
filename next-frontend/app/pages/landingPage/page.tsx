@@ -1,12 +1,14 @@
 'use client'
 
 import { useEffect } from "react"
-import CTASection from "@/app/components/CTASection/page"
-import FeaturesSections from "@/app/components/FeaturesSection/page"
-import Footer from "@/app/components/Footer/page"
-import HeroSection from "@/app/components/heroSection/page"
-import Navbar from "@/app/components/navbar/page"
-import StatsSection from "@/app/components/StatsSection/page"
+
+import FeaturesSections from "@/app/components/FeaturesSection"
+import Footer from "@/app/components/Footer"
+import HeroSection from "@/app/components/heroSection"
+import Navbar from "@/app/components/navbar"
+import StatsSection from "@/app/components/StatsSection"
+import CTASection from "@/app/components/CTASection"
+
 
 const LandingPage = () => {
 
@@ -48,7 +50,7 @@ const LandingPage = () => {
           </div>
         </section>
 
-        <FeaturesSections />
+        {/*<FeaturesSections />*/}
         <StatsSection />
         <CTASection />
       </main>

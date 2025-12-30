@@ -1,4 +1,5 @@
-import ThreeBackground from "../ThreeBackground/page"
+import ThreeBackground from "./ThreeBackground"
+
 
 const HeroSection = () => {
     return (

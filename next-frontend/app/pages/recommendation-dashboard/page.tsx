@@ -1,20 +1,35 @@
 'use client'
 
-import Navbar from "@/app/components/navbar/page";
-import RecommendationCard from "@/app/components/RecommendationCard/page";
-import SelectedMovieCard from "@/app/components/SelectedMovieCard/page";
-import ThreeBackground from "@/app/components/ThreeBackground/page";
+import Navbar from "@/app/components/navbar";
+import RecommendationCard from "@/app/components/RecommendationCard";
+
+import SelectedMovieCard from "@/app/components/SelectedMovieCard";
+import ThreeBackground from "@/app/components/ThreeBackground";
+import { TMDBDetailedMovie, TMDBSearchMovie } from "@/app/types/movie";
+
 import { useEffect, useState } from "react";
 
 const TMDB_API_KEY = "576f0051dff3e97a42a31648d28054a8";
+interface Movie {
+  id: number;
+  title: string;
+  original_title?: string;
+  poster_path: string | null;
+  release_date?: string;
+  vote_average?: number;
+}
+
 
 const RecommendationPage = () => {
 
   const [searchInput, setSearchInput] = useState("");
-  const [poster, setPoster] = useState(null)
-  const [selectedMovie, setSelectedMovie] = useState(null);
+  const [poster, setPoster] = useState<TMDBSearchMovie | null>(null);
+
+
+  const [selectedMovie, setSelectedMovie] = useState<TMDBSearchMovie | null>(null);
+  const [recommendations, setRecommendations] = useState<TMDBDetailedMovie[]>([]);
+
   const [isGenerating, setIsGenerating] = useState(false);
-  const [recommendations, setRecommendations] = useState([]);
 
   useEffect(() => {
     if (!searchInput.trim()) {
@@ -33,7 +48,7 @@ const RecommendationPage = () => {
         const data = await response.json();
 
         const firstValidMovie = (data.results || []).find(
-          (movie) => movie.poster_path
+          (movie: Movie) => movie.poster_path
         );
 
         setPoster(firstValidMovie || null);
@@ -46,34 +61,39 @@ const RecommendationPage = () => {
     fetchMovie();
   }, [searchInput]);
 
-  const handleMovieSelect = (movie) => {
+  const handleMovieSelect = (movie: Movie) => {
     setSelectedMovie(movie);
     setPoster(null);
   }
 
+
   const fetchMoviesAndPosters = async () => {
-        try {
-          console.log("Selected Movie for Recommendations:", selectedMovie);
-          const response = await fetch(
-            `https://movie-recommendation-website-i6d8.onrender.com/api/recommend/${selectedMovie?.original_title}`
-          );
-          const data = await response.json();
-  
-          const movieIds = data.id_list;
-  
-          const posterPromises = movieIds.map(async (id) => {
-            const res = await fetch(
-              `https://api.themoviedb.org/3/movie/${id}?api_key=576f0051dff3e97a42a31648d28054a8`
-            );
-            return res.json();
-          });
-  
-          const results = await Promise.all(posterPromises);
-          setRecommendations(results);
-        } catch (error) {
-          console.error("Error fetching movies:", error);
-        }
-      };
+    try {
+      setIsGenerating(true)
+      console.log("Selected Movie for Recommendations:", selectedMovie);
+      const response = await fetch(
+        `https://movie-recommendation-website-i6d8.onrender.com/api/recommend/${selectedMovie?.original_title}`
+      );
+      const data = await response.json();
+
+      const movieIds: number[] = data.id_list;
+
+      const posterPromises = movieIds.map(async (id) => {
+        const res = await fetch(
+          `https://api.themoviedb.org/3/movie/${id}?api_key=576f0051dff3e97a42a31648d28054a8`
+        );
+        return res.json();
+      });
+
+      const results: TMDBDetailedMovie[] = await Promise.all(posterPromises);
+      setRecommendations(results);
+
+    } catch (error) {
+      console.error("Error fetching movies:", error);
+    } finally {
+      setIsGenerating(false)
+    }
+  };
 
   return (
     <div className=" bg-[#0f0f23] w-full min-h-screen ">
@@ -182,7 +202,7 @@ const RecommendationPage = () => {
             <button
               className="mt-6 bg-primary text-primary-foreground hover:bg-primary/90 px-[24px] py-[16px] rounded-sm text-xl cursor-pointer "
               disabled={!selectedMovie || isGenerating}
-              onClick={()=>fetchMoviesAndPosters()}
+              onClick={() => fetchMoviesAndPosters()}
             >
               {isGenerating
                 ? "Generating Recommendations..."
@@ -190,29 +210,29 @@ const RecommendationPage = () => {
             </button>
 
             {recommendations?.length > 0 &&
-                <div className="mt-6 ">
-                    <div className="flex items-center justify-between mb-6">
-                      <div className="flex items-center gap-2">
-                        
-                        <h2 className="text-2xl font-bold text-foreground">Your Personalized Recommendations</h2>
-                      </div>
-                      <span className="text-sm text-muted-foreground">{recommendations?.length} movies</span>
-                    </div>
+              <div className="mt-6 ">
+                <div className="flex items-center justify-between mb-6">
+                  <div className="flex items-center gap-2">
 
-                    <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-                      {recommendations?.map((movie) =>
+                    <h2 className="text-2xl font-bold text-foreground">Your Personalized Recommendations</h2>
+                  </div>
+                  <span className="text-sm text-muted-foreground">{recommendations?.length} movies</span>
+                </div>
+
+                <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+                  {recommendations?.map((movie) =>
                     <RecommendationCard
                       key={movie?.id}
                       movie={movie}
-                      //onSave={handleSaveMovie}
-                      //onMarkWatched={handleMarkWatched}
-                      //onRequestSimilar={handleRequestSimilar} 
-                      />
+                    //onSave={handleSaveMovie}
+                    //onMarkWatched={handleMarkWatched}
+                    //onRequestSimilar={handleRequestSimilar} 
+                    />
 
-                    )}
-                    </div>
-                  </div>
-                }
+                  )}
+                </div>
+              </div>
+            }
 
           </div>
         </div>

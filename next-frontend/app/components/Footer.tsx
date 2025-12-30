@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 
@@ -34,14 +35,14 @@ const Footer = () => {
       <div className="container mx-auto px-4 lg:px-8 py-12 lg:py-16">
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-8 lg:gap-12 mb-12">
           <div className="lg:col-span-2">
-            <div to="/landing-page" className="flex items-center space-x-3 mb-6">
+            <Link href="/landing-page" className="flex items-center space-x-3 mb-6">
               <div className="w-10 h-10 rounded-lg bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-glow">
                 <i className="fa-solid fa-film"></i>
               </div>
               <span className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                 CineAI
               </span>
-            </div>
+            </Link>
             <p className="text-muted-foreground mb-6 max-w-sm">
               Discover your next favorite movie with AI-powered recommendations. Experience the future of cinema discovery.
             </p>
@@ -64,12 +65,12 @@ const Footer = () => {
             <ul className="space-y-3">
               {footerLinks?.product?.map((link) => (
                 <li key={link?.label}>
-                  <div
-                    to={link?.path}
+                  <Link
+                    href={link?.path}
                     className="text-muted-foreground hover:text-foreground smooth-transition"
                   >
                     {link?.label}
-                  </div>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -80,12 +81,12 @@ const Footer = () => {
             <ul className="space-y-3">
               {footerLinks?.company?.map((link) => (
                 <li key={link?.label}>
-                  <div
-                    to={link?.path}
+                  <Link
+                    href={link?.path}
                     className="text-muted-foreground hover:text-foreground smooth-transition"
                   >
                     {link?.label}
-                  </div>
+                  </Link>
                 </li>
               ))}
             </ul>
@@ -113,15 +114,15 @@ const Footer = () => {
             &copy; {currentYear} CineAI. All rights reserved.
           </p>
           <div className="flex items-center space-x-6 text-sm text-muted-foreground">
-            <div to="#" className="hover:text-foreground smooth-transition">
+            <Link href="#" className="hover:text-foreground smooth-transition">
               Terms of Service
-            </div>
-            <div to="#" className="hover:text-foreground smooth-transition">
+            </Link>
+            <Link href="#" className="hover:text-foreground smooth-transition">
               Privacy Policy
-            </div>
-            <div to="#" className="hover:text-foreground smooth-transition">
+            </Link>
+            <Link href="#" className="hover:text-foreground smooth-transition">
               Cookie Policy
-            </div>
+            </Link>
           </div>
         </div>
       </div>

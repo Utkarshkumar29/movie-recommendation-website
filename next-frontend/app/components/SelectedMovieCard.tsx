@@ -1,7 +1,27 @@
 import Image from "next/image";
 import React from "react";
 
-const SelectedMovieCard = ({ movie, onRemove }) => {
+interface Genre {
+  id: number;
+  name: string;
+}
+
+interface Movie {
+  id: number;
+  title: string;
+  poster_path: string | null;
+  vote_average?: number;
+  release_date?: string;
+  genres?: Genre[];
+}
+
+interface SelectedMovieCardProps {
+  movie: Movie;
+  onRemove?: (movieId: number) => void;
+}
+
+
+const SelectedMovieCard = ({ movie, onRemove }:SelectedMovieCardProps) => {
   console.log("Selected Movie in Card:", movie);
 
   return (

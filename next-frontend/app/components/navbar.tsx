@@ -1,4 +1,5 @@
 'use client'
+import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import { useState } from "react";
 
@@ -15,7 +16,7 @@ const Navbar = () => {
     { label: 'Upcoming', path: '/upcoming-movies', icon: <i className="fa-solid fa-calendar"></i> }
   ];
 
-  const isActive = (path) => pathanme.includes(path);
+  const isActive = (path:string) => pathanme.includes(path);
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -30,8 +31,8 @@ const Navbar = () => {
       <header className="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-border">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <div 
-              to="/landing-page" 
+            <Link 
+              href="/landing-page" 
               className="flex items-center space-x-3 smooth-transition hover:opacity-80"
               onClick={closeMobileMenu}
             >
@@ -41,13 +42,13 @@ const Navbar = () => {
               <span className="text-xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">
                 CineAI
               </span>
-            </div>
+            </Link>
 
             <nav className="hidden lg:flex items-center space-x-1">
               {navigationItems?.map((item) => (
-                <div
+                <Link
                   key={item?.path}
-                  to={item?.path}
+                  href={item?.path}
                   className={`
                    cursor-pointer flex items-center space-x-2 px-4 py-2 rounded-lg smooth-transition
                     ${isActive(item?.path) 
@@ -59,7 +60,7 @@ const Navbar = () => {
                 >
                   {item?.icon}
                   <span className="font-medium">{item?.label}</span>
-                </div>
+                </Link>
               ))}
             </nav>
             
@@ -89,9 +90,9 @@ const Navbar = () => {
       >
         <nav className="glass-panel border-b border-border mx-4 mt-4 rounded-lg overflow-hidden">
           {navigationItems?.map((item, index) => (
-            <div
+            <Link
               key={item?.path}
-              to={item?.path}
+              href={item?.path}
               onClick={closeMobileMenu}
               className={`
                 flex items-center space-x-3 px-6 py-4 smooth-transition
@@ -103,7 +104,7 @@ const Navbar = () => {
             >
               {item?.icon}
               <span className="font-medium">{item?.label}</span>
-            </div>
+            </Link>
           ))}
         </nav>
       </div>

@@ -1,4 +1,5 @@
-import FeatureCard from "../FeatureCard/page"
+import FeatureCard from "./FeatureCard"
+
 
 const FeaturesSections = () => {
 

@@ -1,7 +1,19 @@
-import React from 'react';
+import React, { ReactNode } from 'react';
 
+interface StatsBarProps {
+  totalMovies: number;
+  filteredMovies: number;
+  averageRating: number | null;
+}
 
-const StatsBar = ({ totalMovies, filteredMovies, averageRating }) => {
+interface StatItem {
+  icon: ReactNode;
+  label: string;
+  value: number | string;
+  color: string;
+}
+
+const StatsBar = ({ totalMovies, filteredMovies, averageRating }:StatsBarProps) => {
   const stats = [
     {
       icon: <i className="fa-solid fa-arrow-trend-up"></i>,

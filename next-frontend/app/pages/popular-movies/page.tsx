@@ -1,6 +1,6 @@
-import Navbar from "@/app/components/navbar/page";
-import StatsBar from "@/app/components/StatsBar/page";
-import ThreeBackground from "@/app/components/ThreeBackground/page";
+import Navbar from "@/app/components/navbar";
+import StatsBar from "@/app/components/StatsBar";
+import ThreeBackground from "@/app/components/ThreeBackground";
 
 const PopularMoviesPage = () => {
     return (
@@ -13,7 +13,7 @@ const PopularMoviesPage = () => {
                 <div className="space-y-4">
               <div className="flex items-center space-x-3">
                 <div className="w-12 h-12 rounded-xl bg-gradient-to-br from-primary to-secondary flex items-center justify-center shadow-glow">
-                  <i class="fa-solid fa-arrow-trend-up"></i>
+                  <i className="fa-solid fa-arrow-trend-up"></i>
                 </div>
                 <div>
                   <h1 className="text-3xl lg:text-4xl font-bold text-foreground">
