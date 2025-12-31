@@ -1,5 +1,6 @@
-import Navbar from "@/app/components/navbar";
+'use client'
 
+import Navbar from "@/app/components/navbar";
 import dynamic from "next/dynamic";
 import StatsBar from "../components/StatsBar";
 const ThreeBackground = dynamic(
