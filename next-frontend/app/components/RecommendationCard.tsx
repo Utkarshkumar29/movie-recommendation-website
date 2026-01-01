@@ -89,7 +89,7 @@ const RecommendationCard = ({
           </span>
 
           {/* Genres */}
-          {movie.genre_ids.length > 0 && (
+          {movie?.genre_ids?.length > 0 && (
             <div className="flex flex-wrap gap-1 my-2">
               {movie.genre_ids.map((id) => (
                 <span
