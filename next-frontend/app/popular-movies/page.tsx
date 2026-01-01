@@ -4,6 +4,7 @@ import Navbar from "@/app/components/navbar";
 import dynamic from "next/dynamic";
 import StatsBar from "../components/StatsBar";
 import { useEffect, useState } from "react";
+import MovieCard from "../components/MovieCard";
 const ThreeBackground = dynamic(
   () => import("@/app/components/ThreeBackground"),
   { ssr: false }
@@ -44,11 +45,11 @@ const PopularMoviesPage = () => {
     }, []);
 
     return (
-        <div className="min-h-screen bg-[#0f0f23] relative overflow-hidden">
+        <div className="min-h-screen h-full bg-[#0f0f23] relative overflow-hidden">
             <ThreeBackground />
             <Navbar />
 
-            <main className="container mx-auto px-4 lg:px-8 pt-24 pb-16 flex flex-col gap-8 relative z-10">
+            <main className=" h-full max-w-[1540px] mx-auto px-4 lg:px-8 pt-24 pb-16 flex flex-col gap-8 relative z-10">
                 
                 <div className="space-y-4">
               <div className="flex items-center space-x-3">
@@ -70,6 +71,14 @@ const PopularMoviesPage = () => {
               totalMovies={20}
               filteredMovies={10}
               averageRating={5} />
+
+            <div className=" min-h-screen grid grid-cols-5 gap-10 place-items-center ">
+              {popularMovies.length>0 && popularMovies.map((movie,index)=>{
+              return(
+                <MovieCard {...movie}  key={index} />
+              )
+            })}
+            </div>
 
             </main>
         </div>

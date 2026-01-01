@@ -11,6 +11,7 @@ const ThreeBackground = dynamic(
 
 import { TMDBDetailedMovie, TMDBSearchMovie } from "@/app/types/movie";
 import dynamic from "next/dynamic";
+import Image from "next/image";
 
 import { useEffect, useState } from "react";
 
@@ -153,7 +154,7 @@ const RecommendationPage = () => {
                   className=" cursor-pointer w-full flex items-center gap-4 p-4 hover:bg-muted/50 smooth-transition border-b border-border/50 last:border-b-0"
                 >
                   <div className="w-12 h-16 rounded overflow-hidden flex-shrink-0">
-                    <img
+                    <Image
                       src={`https://image.tmdb.org/t/p/w185${poster.poster_path}`}
                       alt={poster.title}
                       className="w-full h-full object-cover"

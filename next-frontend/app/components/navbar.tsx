@@ -6,17 +6,23 @@ import { useState } from "react";
 const Navbar = () => {
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const router = useRouter();
-  const pathanme=usePathname()
-  console.log("Current Path:", router,pathanme);
+  const pathanme = usePathname()
+  console.log("Current Path:", router, pathanme);
 
   const navigationItems = [
-    { label: 'Home', path: '/landing-page', icon: <i className="fa-solid fa-house-chimney"></i> },
+    { label: 'Home', path: '/', icon: <i className="fa-solid fa-house-chimney"></i> },
     { label: 'Recommendations', path: '/recommendation-dashboard', icon: <i className="fa-solid fa-clapperboard"></i> },
     { label: 'Popular', path: '/popular-movies', icon: <i className="fa-solid fa-fire"></i> },
     { label: 'Upcoming', path: '/upcoming-movies', icon: <i className="fa-solid fa-calendar"></i> }
   ];
 
-  const isActive = (path:string) => pathanme.includes(path);
+  const isActive = (path: string) => {
+    if (path === "/") {
+      return pathanme === "/";
+    }
+    return pathanme.startsWith(path);
+  };
+
 
   const toggleMobileMenu = () => {
     setMobileMenuOpen(!mobileMenuOpen);
@@ -31,8 +37,8 @@ const Navbar = () => {
       <header className="fixed top-0 left-0 right-0 z-50 glass-panel border-b border-border">
         <div className="container mx-auto px-4 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <Link 
-              href="/landing-page" 
+            <Link
+              href="/"
               className="flex items-center space-x-3 smooth-transition hover:opacity-80"
               onClick={closeMobileMenu}
             >
@@ -51,37 +57,37 @@ const Navbar = () => {
                   href={item?.path}
                   className={`
                    cursor-pointer flex items-center space-x-2 px-4 py-2 rounded-lg smooth-transition
-                    ${isActive(item?.path) 
-                      ? 'bg-primary/20 text-primary border border-primary/30 shadow-glow' 
+                    ${isActive(item?.path)
+                      ? 'bg-primary/20 text-primary border border-primary/30 shadow-glow'
                       : 'text-muted-foreground hover:text-foreground hover:bg-muted/50'
                     }
                   `}
-                  onClick={()=>router.push(`/pages/${item?.path}`)}
+                  onClick={() => router.push(`/pages/${item?.path}`)}
                 >
                   {item?.icon}
                   <span className="font-medium">{item?.label}</span>
                 </Link>
               ))}
             </nav>
-            
+
 
             <button
               onClick={toggleMobileMenu}
               className="lg:hidden p-2 rounded-lg hover:bg-muted/50 smooth-transition"
               aria-label="Toggle mobile menu"
             >
-              {mobileMenuOpen ? <i className="fa-solid fa-x"></i>: <i className="fa-solid fa-bars"></i>}
+              {mobileMenuOpen ? <i className="fa-solid fa-x"></i> : <i className="fa-solid fa-bars"></i>}
             </button>
           </div>
         </div>
       </header>
       {mobileMenuOpen && (
-        <div 
+        <div
           className="fixed inset-0 z-40 bg-background/80 backdrop-blur-sm lg:hidden"
           onClick={closeMobileMenu}
         />
       )}
-      <div 
+      <div
         className={`
           fixed top-16 left-0 right-0 z-40 lg:hidden
           transform smooth-transition
@@ -96,8 +102,8 @@ const Navbar = () => {
               onClick={closeMobileMenu}
               className={`
                 flex items-center space-x-3 px-6 py-4 smooth-transition
-                ${isActive(item?.path) 
-                  ? 'bg-primary/20 text-primary border-l-4 border-primary' :'text-muted-foreground hover:text-foreground hover:bg-muted/50 border-l-4 border-transparent'
+                ${isActive(item?.path)
+                  ? 'bg-primary/20 text-primary border-l-4 border-primary' : 'text-muted-foreground hover:text-foreground hover:bg-muted/50 border-l-4 border-transparent'
                 }
                 ${index !== navigationItems?.length - 1 ? 'border-b border-border/50' : ''}
               `}

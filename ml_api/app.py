@@ -72,8 +72,8 @@ def recommend(movie):
 @app.route("/popular")
 def popular():
     return jsonify({
-        "popular_movies": popular_movies["title"].tolist()[:10],
-        "popular_ids": popular_movies["id"].tolist()[:10]
+        "popular_movies": popular_movies["title"].tolist()[:20],
+        "popular_ids": popular_movies["id"].tolist()[:20]
     })
 
 # ================= ENTRY POINT =================
