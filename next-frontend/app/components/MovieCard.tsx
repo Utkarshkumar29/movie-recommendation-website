@@ -1,6 +1,28 @@
 import Image from "next/image"
 
-const MovieCard = (movie) => {
+interface Genre{
+    id:number,
+    name:string,
+}
+
+interface SpokenLanguages{
+    name:string
+    english_name:string
+    iso_639_1:string
+}
+
+interface MovieCard {
+    title:string,
+    poster_path:string,
+    genres:Genre[],
+    vote_average:number,
+    overview:string,
+    spoken_languages:SpokenLanguages[],
+    release_date:string,
+    runtime:number
+}
+
+const MovieCard = (movie:MovieCard) => {
     return (
         <div className=" group glass-panel w-full h-full gradient-border rounded-xl ">
             <div className="relative h-[360px] w-full overflow-hidden group-hover:bg-black/30 smooth-transition ">

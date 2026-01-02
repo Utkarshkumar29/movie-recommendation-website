@@ -32,18 +32,18 @@ const UpcomingMoviesPage = () => {
         }
     }
 
-   useEffect(() => {
-  fetchMovies(1)
-}, [])
+    useEffect(() => {
+        fetchMovies(1)
+    }, [])
 
 
     const fetchNext = () => {
-  setCurrentPage(prevPage => {
-    const nextPage = prevPage + 1
-    fetchMovies(nextPage)
-    return nextPage
-  })
-}
+        setCurrentPage(prevPage => {
+            const nextPage = prevPage + 1
+            fetchMovies(nextPage)
+            return nextPage
+        })
+    }
 
 
     return (
@@ -74,7 +74,7 @@ const UpcomingMoviesPage = () => {
                             🎬 No more upcoming movies
                         </p>}
                 >
-                     <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 place-items-center">
+                    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-10 place-items-center">
                         {upcomingMovies.length > 0 && upcomingMovies.map((movie, index) => {
                             return (
                                 <UpcomingMovieCard movie={movie} key={index} />

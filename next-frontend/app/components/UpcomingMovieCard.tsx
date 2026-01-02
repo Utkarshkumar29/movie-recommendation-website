@@ -1,6 +1,6 @@
 import Image from "next/image"
 
-const GENRE_MAP = {
+const GENRE_MAP: Record<number,string> = {
   28: "Action",
   12: "Adventure",
   16: "Animation",
@@ -10,9 +10,21 @@ const GENRE_MAP = {
   27: "Horror",
   53: "Thriller",
   878: "Sci-Fi",
-};
+}
 
-const UpcomingMovieCard = ({ movie }) => {
+interface UpcomingMovie{
+  title:string
+  poster_path:string
+  genre_ids:number[]
+  overview: string
+  release_date: string
+}
+
+interface UpcomingMovieCardProps {
+  movie: UpcomingMovie
+}
+
+const UpcomingMovieCard = ({ movie }: UpcomingMovieCardProps) => {
   return (
     <div className="group glass-panel rounded-xl min-w-[250px] ">
 

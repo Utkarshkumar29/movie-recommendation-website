@@ -10,20 +10,41 @@ const ThreeBackground = dynamic(
   { ssr: false }
 )
 
-interface popularMovie {
-  
+interface Genre {
+  id: number
+  name: string
+}
+
+interface SpokenLanguage {
+  iso_639_1: string
+  name: string
+  english_name: string
+}
+
+interface PopularMovie {
+  id: number
+  title: string
+  poster_path: string
+  genres: Genre[]
+  vote_average: number
+  overview: string
+  spoken_languages: SpokenLanguage[]
+  release_date: string
+  runtime: number
+}
+
+interface PopularMoviesResponse {
+  popular_ids: number[]
 }
 
 const PopularMoviesPage = () => {
-  const [popularMovies, setPopularMovies] = useState([])
+  const [popularMovies, setPopularMovies] = useState<PopularMovie[]>([])
 
   useEffect(() => {
       const fetchMoviesAndPosters = async () => {
         try {
           const response = await fetch(`https://movie-recommendation-website-i6d8.onrender.com/popular`);
-          const data = await response.json();
-          console.log(data.popular_movies);
-          console.log(data.popular_movies.length);
+          const data:PopularMoviesResponse = await response.json();
   
           const movieIds = data.popular_ids;
           const posterPromises = movieIds.map(async (movieId) => {
