@@ -1,6 +1,6 @@
 import Image from "next/image"
 
-const GENRE_MAP: Record<number,string> = {
+const GENRE_MAP: Record<number, string> = {
   28: "Action",
   12: "Adventure",
   16: "Animation",
@@ -12,10 +12,10 @@ const GENRE_MAP: Record<number,string> = {
   878: "Sci-Fi",
 }
 
-interface UpcomingMovie{
-  title:string
-  poster_path:string
-  genre_ids:number[]
+interface UpcomingMovie {
+  title: string
+  poster_path: string
+  genre_ids: number[]
   overview: string
   release_date: string
 }
